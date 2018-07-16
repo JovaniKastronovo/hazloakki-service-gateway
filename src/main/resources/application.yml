@@ -1,0 +1,41 @@
+info:
+  component: Edge Server
+
+endpoints:
+  restart:
+    enabled: true
+  shutdown:
+    enabled: true
+  health:
+    sensitive: false
+
+zuul:
+  prefix: /v1
+  addHostHeader: true
+  routes:
+    clientes:
+      path: /clientes/**
+      serviceId: clientes-service
+    pedidos:
+      path: /pedidos/**
+      serviceId: pedidos-service
+
+ribbon:
+  eureka:
+    enabled: true
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka/
+    registerWithEureka: false # solo le habla a eureka pero no se registra
+
+spring.sleuth.sampler.percentage: 1.0
+
+server:
+  port: 8765
+
+logging:
+  level:
+    ROOT: INFO
+    org.springframework.web: ERROR
